@@ -1,0 +1,10 @@
+core_engine/build/
+*.so
+*.dylib
+*.dll
+*.o
+__pycache__/
+.venv/
+env/
+.DS_Store
+Thumbs.db
