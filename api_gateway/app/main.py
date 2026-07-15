@@ -2,14 +2,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import vault, auth
 
-# Initialize the FastAPI application
 app = FastAPI(
     title="Zero-Trust Password Manager API",
-    description="A Python Frontend connected to a custom C B+ Tree Database via TCP Sockets",
+    description="Python Frontend connected to a custom C B+ Tree Database",
     version="1.0.0"
 )
 
-# This allows external HTML files (like our demo) to talk to the API
+# Allows our api_demo.html to talk to the API
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -18,7 +17,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Plug in the routes we just created
 app.include_router(vault.router)
 app.include_router(auth.router)
 
