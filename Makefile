@@ -1,9 +1,7 @@
---- C DATABASE ENGINE COMMANDS ---
+STREAMING_CHUNK: Configuring C compiler and sources
 
 CC = gcc
 CFLAGS = -Wall -Wextra -g
-
-Source files for the C Server
 
 SRCS = core_engine/src/pager.c 
 
@@ -15,7 +13,7 @@ core_engine/src/server.c
 
 TARGET = KYL_SERVER
 
-Default target: Compile the C database
+STREAMING_CHUNK: Defining build targets
 
 all: $(TARGET)
 
@@ -25,29 +23,19 @@ $(CC)$(CFLAGS) $(SRCS) -o$(TARGET)
 @echo "[+] Build successful! C Database Engine compiled."
 @echo "----------------------------------------"
 
-Run the C Database Engine
+STREAMING_CHUNK: Defining run targets for DB and API
 
 db: $(TARGET)
 @echo "Starting Zero-Trust C Database Engine..."
 ./$(TARGET)
 
---- PYTHON FASTAPI COMMANDS ---
-
-Install Python dependencies
-
 install:
 pip3 install fastapi uvicorn pydantic
 
-Run the Python Web API
-
 api:
 @echo "Starting FastAPI Gateway..."
-uvicorn api_gateway.app.main:app --reload
-
---- UTILITIES ---
-
-Clean up compiled binaries and database files
+cd api_gateway && uvicorn app.main:app --reload
 
 clean:
-rm -f $(TARGET) kyl_vault.db vault.db
+rm -f $(TARGET) kyl_vault.db
 @echo "Cleaned up executable and database files."
