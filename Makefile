@@ -1,30 +1,53 @@
-# Compiler and Flags
+--- C DATABASE ENGINE COMMANDS ---
+
 CC = gcc
 CFLAGS = -Wall -Wextra -g
 
-# Libraries required by KYL (OpenSSL and cURL)
-LDFLAGS = -lcrypto -lcurl
+Source files for the C Server
 
-# Explicitly list source files to avoid conflicts with old test files
-SRCS = core_engine/src/pager.c \
-       core_engine/src/buffer_pool.c \
-       core_engine/src/bplus_tree.c \
-       api_gateway/src/KYL_main.c
+SRCS = core_engine/src/pager.c 
 
-# Output executable name
-TARGET = KYL
+core_engine/src/buffer_pool.c 
 
-# Default target
+core_engine/src/bplus_tree.c 
+
+api_gateway/src/server.c
+
+TARGET = KYL_SERVER
+
+Default target: Compile the C database
+
 all: $(TARGET)
 
-# Compile the target
-$(TARGET): $(SRCS)
-	$(CC) $(CFLAGS) $(SRCS) -o $(TARGET) $(LDFLAGS)
-	@echo "----------------------------------------"
-	@echo "Build successful! Run with ./KYL"
-	@echo "----------------------------------------"
+$(TARGET):$(SRCS)
+$(CC)$(CFLAGS) $(SRCS) -o$(TARGET)
+@echo "----------------------------------------"
+@echo "[+] Build successful! C Database Engine compiled."
+@echo "----------------------------------------"
 
-# Clean up compiled binaries and database files
+Run the C Database Engine
+
+db: $(TARGET)
+@echo "Starting Zero-Trust C Database Engine..."
+./$(TARGET)
+
+--- PYTHON FASTAPI COMMANDS ---
+
+Install Python dependencies
+
+install:
+pip3 install fastapi uvicorn pydantic
+
+Run the Python Web API
+
+api:
+@echo "Starting FastAPI Gateway..."
+uvicorn api_gateway.app.main:app --reload
+
+--- UTILITIES ---
+
+Clean up compiled binaries and database files
+
 clean:
-	rm -f $(TARGET) kyl_vault.db temp.txt
-	@echo "Cleaned up executable and database files."
+rm -f $(TARGET) kyl_vault.db
+@echo "Cleaned up executable and database files."
