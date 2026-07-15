@@ -4,10 +4,10 @@ class ZeroTrustClient:
     def __init__(self, host='127.0.0.1', port=8080):
         self.host = host
         self.port = port
-        self.shift = 3  # Caesar cipher shift to match your original logic
+        self.shift = 3  # Caesar cipher shift 
 
     def _encrypt(self, text):
-        """Encrypts data in Python BEFORE it reaches the database"""
+        """Encrypts data BEFORE it reaches the database"""
         encrypted = ""
         for char in text:
             if char.isalpha():
@@ -28,7 +28,7 @@ class ZeroTrustClient:
         return decrypted
 
     def _send_command(self, command_string):
-        """Opens a TCP socket, sends the command, and receives the response."""
+        """Opens a TCP socket, sends command, receives response."""
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.connect((self.host, self.port))
@@ -36,13 +36,11 @@ class ZeroTrustClient:
                 data = s.recv(1024)
                 return data.decode('utf-8')
         except ConnectionRefusedError:
-            return "ERROR: Could not connect to C Database Engine. Is it running?"
+            return "ERROR_CONNECTION_REFUSED: Is C Server running?"
 
     def add_password(self, service, password):
         encrypted_pass = self._encrypt(password)
-        # Send raw command to C: "ADD twitter enc_pass"
-        response = self._send_command(f"ADD {service} {encrypted_pass}")
-        return response
+        return self._send_command(f"ADD {service} {encrypted_pass}")
 
     def get_password(self, service):
         response = self._send_command(f"GET {service}")
