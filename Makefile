@@ -11,7 +11,7 @@ core_engine/src/buffer_pool.c
 
 core_engine/src/bplus_tree.c 
 
-api_gateway/src/server.c
+core_engine/src/server.c
 
 TARGET = KYL_SERVER
 
@@ -49,5 +49,5 @@ uvicorn api_gateway.app.main:app --reload
 Clean up compiled binaries and database files
 
 clean:
-rm -f $(TARGET) kyl_vault.db
+rm -f $(TARGET) kyl_vault.db vault.db
 @echo "Cleaned up executable and database files."
