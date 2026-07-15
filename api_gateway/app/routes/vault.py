@@ -2,10 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from app.bindings import get_db
 
-# Create a router for all /vault endpoints
 router = APIRouter(prefix="/vault", tags=["Vault"])
 
-# Data model for what the user sends in a POST request
 class PasswordData(BaseModel):
     service: str
     password: str
